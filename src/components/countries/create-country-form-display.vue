@@ -14,21 +14,32 @@
 <script>
 export default {
     name: 'create-country-form',
+    props: {
+        country: Object
+    },
     data() {
         return {
             name: ''
         };
     },
+    beforeMount() {
+        if (this.country) {
+            this.name = this.country.name;
+        }
+    },
     methods: {
         emitSaveEvent() {
-            this.$emit('onsave', { name: this.name });
+            this.$emit('onsave', {
+                ...this.country,
+                name: this.name
+            });
         }
     },
     components: {}
 };
 </script>
 
-<style>
+<style scoped>
     label {
         margin-right: 0.5rem;
     }

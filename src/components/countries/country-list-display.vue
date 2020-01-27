@@ -7,12 +7,16 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="country in countries" :key="country.id">
                     <td>{{ country.id }}</td>
                     <td>{{ country.name }}</td>
+                    <td>
+                        <button @click="edit(country.id)">Edit</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -26,16 +30,21 @@ export default {
         countries: Array,
         loading: Boolean
     },
-    components: {},
     computed: {
         empty() {
             return this.countries == null || this.countries.length === 0;
         }
-    }
+    },
+    methods: {
+        edit(id) {
+            this.$router.push(`/countries/edit/${id}`);
+        }
+    },
+    components: {}
 };
 </script>
 
-<style>
+<style scoped>
 table {
     margin: auto;
 }
