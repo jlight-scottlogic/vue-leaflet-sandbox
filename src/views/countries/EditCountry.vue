@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Edit Country</h1>
+        <h2>Edit Country</h2>
         <Form :countryId="countryId"></Form>
     </div>
 </template>

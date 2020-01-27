@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         edit(id) {
-            this.$router.push(`/countries/edit/${id}`);
+            this.$router.push(`/countries/${id}/edit`);
         }
     },
     components: {}
