@@ -1,11 +1,13 @@
 <template>
-    <div v-if="country != null">
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="country == null">No Country data found</div>
+    <div v-else>
         <Display :country="country" @onsave="save"></Display>
     </div>
 </template>
 
 <script>
-import Display from './create-country-form-display.vue';
+import Display from './country-form.vue';
 import * as client from '../../client/fake-client';
 
 export default {
@@ -15,7 +17,8 @@ export default {
     },
     data() {
         return {
-            country: null
+            country: null,
+            loading: false
         };
     },
     created() {
@@ -23,7 +26,9 @@ export default {
     },
     methods: {
         async load() {
+            this.loading = true;
             this.country = await client.get(`countries/${this.countryId}`);
+            this.loading = false;
         },
         async save(newCountry) {
             await client.put(`countries/${this.countryId}`, newCountry);

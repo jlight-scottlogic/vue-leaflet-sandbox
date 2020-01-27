@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: 'create-country-form',
+    name: 'country-form',
     props: {
         country: Object
     },

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Display from './create-country-form-display.vue';
+import Display from './country-form.vue';
 import * as client from '../../client/fake-client';
 
 export default {
