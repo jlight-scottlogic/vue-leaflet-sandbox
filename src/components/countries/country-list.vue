@@ -14,18 +14,22 @@ export default {
             loading: false
         };
     },
-    beforeMount() {
+    created() {
         this.getCountries();
     },
     methods: {
-        getCountries() {
+        async getCountries() {
             this.loading = true;
-            client.get('countries').then(results => {
-                this.countries = results;
-                this.loading = false;
-            });
+            this.countries = await client.get('countries');
+            this.loading = false;
         }
     },
     components: { Display }
 };
 </script>
+
+<style>
+table {
+    margin: auto;
+}
+</style>

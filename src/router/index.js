@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Countries from '../views/countries/Countries.vue'
+import CreateCountry from '../views/countries/CreateCountry.vue'
 
 Vue.use(VueRouter)
 
@@ -11,12 +13,14 @@ const routes = [
     component: Home
   },
   {
+    path: '/countries/create',
+    name: 'create-country',
+    component: CreateCountry
+  },
+  {
     path: '/countries',
     name: 'countries',
-    // route level code-splitting
-    // this generates a separate chunk (countries.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "countries" */ '../views/Countries.vue')
+    component: Countries
   }
 ]
 
