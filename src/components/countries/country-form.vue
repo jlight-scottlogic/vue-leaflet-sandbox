@@ -6,7 +6,7 @@
         </div>
         <br />
         <div>
-            <button @click="emitSaveEvent">Save</button>
+            <button @click="emitSaveEvent" :disabled="saving">{{ saving ? 'Saving...' : 'Save' }}</button>
         </div>
     </div>
 </template>
@@ -15,7 +15,8 @@
 export default {
     name: 'country-form',
     props: {
-        country: Object
+        country: Object,
+        saving: Boolean
     },
     data() {
         return {
@@ -40,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-    label {
-        margin-right: 0.5rem;
-    }
+label {
+    margin-right: 0.5rem;
+}
 </style>

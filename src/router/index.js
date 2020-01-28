@@ -15,6 +15,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/countries/create',
+    name: 'create-country',
+    component: CreateCountry
+  },
+  {
     path: '/countries/:id',
     name: 'country-layout',
     component: CountryLayout,
@@ -25,11 +30,6 @@ const routes = [
         component: EditCountry
       }
     ]
-  },
-  {
-    path: '/countries/create',
-    name: 'create-country',
-    component: CreateCountry
   },
   {
     path: '/countries',
