@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Map from '../views/Map.vue'
 import Countries from '../views/countries/Countries.vue'
 import CreateCountry from '../views/countries/CreateCountry.vue'
 import EditCountry from '../views/countries/EditCountry.vue'
@@ -13,6 +14,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: Map
   },
   {
     path: '/countries/create',

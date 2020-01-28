@@ -8,7 +8,7 @@
 
 <script>
 import Display from './country-form.vue';
-import { actions } from '../../store';
+import { actions } from '@/store';
 import { mapState } from 'vuex'
 
 export default {

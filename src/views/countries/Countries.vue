@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <h1>Countries</h1>
-    <CountriesList></CountriesList>
-    <br/>
-    <button @click="navigateToAddPage">Add</button>
-  </div>
+    <div>
+        <div class="banner">
+            <h1>Countries</h1>
+        </div>
+        <CountriesList></CountriesList>
+        <br />
+        <button @click="navigateToAddPage">Add</button>
+    </div>
 </template>
 
 <script>
-import CountriesList from '@/components/countries/country-list.vue'
+import CountriesList from '@/components/countries/country-list.vue';
 
 export default {
-  name: 'countries',
-  methods: {
-    navigateToAddPage() {
-      this.$router.push('countries/create');
-    }
-  },
-  components: { CountriesList }
-}
+    name: 'countries',
+    methods: {
+        navigateToAddPage() {
+            this.$router.push('countries/create');
+        }
+    },
+    components: { CountriesList }
+};
 </script>

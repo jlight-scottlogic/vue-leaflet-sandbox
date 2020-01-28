@@ -4,7 +4,7 @@
 
 <script>
 import Display from './country-list-display.vue';
-import * as client from '../../client/fake-client';
+import * as client from '@/client/fake-client';
 
 export default {
     name: 'country-list',

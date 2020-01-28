@@ -34,11 +34,3 @@ export default {
     components: {}
 };
 </script>
-
-<style scoped>
-.banner {
-    width: 100%;
-    background-color: #42b983;
-    padding: 0.5rem 0;
-}
-</style>
