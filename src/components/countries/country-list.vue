@@ -10,7 +10,7 @@ import { actions } from '@/store';
 export default {
     name: 'country-list',
     created() {
-        this.$store.dispatch(actions.loadCountries, this.countryId);
+        this.$store.dispatch(actions.loadCountries);
     },
     computed: mapState({
         countries: state => state.countries.value,
