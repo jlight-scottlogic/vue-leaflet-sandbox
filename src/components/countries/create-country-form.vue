@@ -18,7 +18,7 @@ export default {
         }
     },
     computed: mapState({
-        saving: state => state.saving
+        saving: state => state.country.saving
     }),
     components: { Display }
 };

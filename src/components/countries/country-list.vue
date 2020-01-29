@@ -4,26 +4,18 @@
 
 <script>
 import Display from './country-list-display.vue';
-import * as client from '@/client/fake-client';
+import { mapState } from 'vuex'
+import { actions } from '@/store';
 
 export default {
     name: 'country-list',
-    data() {
-        return {
-            countries: [],
-            loading: false
-        };
-    },
     created() {
-        this.getCountries();
+        this.$store.dispatch(actions.loadCountries, this.countryId);
     },
-    methods: {
-        async getCountries() {
-            this.loading = true;
-            this.countries = await client.get('countries');
-            this.loading = false;
-        }
-    },
+    computed: mapState({
+        countries: state => state.countries.value,
+        loading: state => state.countries.loading
+    }),
     components: { Display }
 };
 </script>

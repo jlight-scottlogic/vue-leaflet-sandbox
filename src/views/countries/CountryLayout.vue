@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { actions } from '../../store';
+import { actions } from '@/store';
 
 export default {
     name: 'country-layout',
@@ -27,8 +27,8 @@ export default {
         this.$store.dispatch(actions.loadCountry, this.countryId);
     },
     computed: mapState({
-        loading: state => state.loading,
-        country: state => state.country
+        loading: state => state.country.loading,
+        country: state => state.country.value
     }),
     methods: {},
     components: {}

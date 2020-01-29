@@ -17,9 +17,9 @@ export default {
         countryId: Number
     },
     computed: mapState({
-        country: state => state.country,
-        loading: state => state.loading,
-        saving: state => state.saving
+        country: state => state.country.value,
+        loading: state => state.country.loading,
+        saving: state => state.country.saving
     }),
     methods: {
         async save(country) {
