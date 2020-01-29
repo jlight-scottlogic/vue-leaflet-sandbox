@@ -15,7 +15,7 @@
                     <td>{{ country.id }}</td>
                     <td>{{ country.name }}</td>
                     <td>
-                        <button @click="edit(country.id)">Edit</button>
+                        <button @click="emitEditClickedEvent(country.id)">Edit</button>
                     </td>
                 </tr>
             </tbody>
@@ -36,8 +36,8 @@ export default {
         }
     },
     methods: {
-        edit(id) {
-            this.$router.push(`/countries/${id}/edit`);
+        emitEditClickedEvent(id) {
+            this.$emit('oneditclicked', id);
         }
     },
     components: {}

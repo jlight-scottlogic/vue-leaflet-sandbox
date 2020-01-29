@@ -1,14 +1,9 @@
 <template>
-    <div>
-        <div v-if="loading">
-            Loading...
+    <div v-if="country != null">
+        <div class="banner">
+            <h1>{{country.name}}</h1>
         </div>
-        <div v-else>
-            <div class="banner">
-                <h1>{{country.name}}</h1>
-            </div>
-            <router-view />
-        </div>
+        <router-view />
     </div>
 </template>
 
@@ -27,7 +22,6 @@ export default {
         this.$store.dispatch(actions.loadCountry, this.countryId);
     },
     computed: mapState({
-        loading: state => state.country.loading,
         country: state => state.country.value
     }),
     methods: {},

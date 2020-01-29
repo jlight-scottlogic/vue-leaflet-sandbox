@@ -47,6 +47,8 @@ export default {
     beforeMount() {
         if (this.country) {
             this.name = this.country.name;
+            this.latitude = this.country.latitude;
+            this.longitude = this.country.longitude;
         }
     },
     methods: {
