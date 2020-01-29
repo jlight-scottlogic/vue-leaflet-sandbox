@@ -1,12 +1,13 @@
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import Vue from 'vue';
-import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet';
 
 export const setup = () => {
     Vue.component('l-map', LMap);
     Vue.component('l-tile-layer', LTileLayer);
     Vue.component('l-marker', LMarker);
+    Vue.component('l-geo-json', LGeoJson);
     Vue.component('l-popup', LPopup);
 
     // this part resolve an issue where the markers would not appear
