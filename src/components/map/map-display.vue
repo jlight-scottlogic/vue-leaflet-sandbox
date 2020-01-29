@@ -7,8 +7,12 @@
             @update:zoom="zoomUpdated"
             @update:center="centerUpdated"
             @update:bounds="boundsUpdated"
+            @click="handleClick"
         >
             <l-tile-layer :url="url"></l-tile-layer>
+            <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng">
+                <l-popup :content="item.content"></l-popup>
+            </l-marker>
         </l-map>
     </div>
 </template>
@@ -27,6 +31,15 @@ export default {
             bounds: null
         };
     },
+    computed: {
+        markers() {
+            return this.countries.map(c => ({
+                id: c.id,
+                latlng: { lat: c.latitude, lng: c.longitude },
+                content: `<h3>${c.name}</h3>`
+            }));
+        }
+    },
     methods: {
         zoomUpdated(zoom) {
             this.zoom = zoom;
@@ -36,6 +49,9 @@ export default {
         },
         boundsUpdated(bounds) {
             this.bounds = bounds;
+        },
+        handleClick(e) {
+            console.log(e.latlng);
         }
     }
 };
