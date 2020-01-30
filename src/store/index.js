@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as client from '../client/fake-client';
+import axios from 'axios';
 
 Vue.use(Vuex)
 
@@ -8,7 +9,8 @@ export const actions = {
   loadCountries: 'loadCountries',
   loadCountry: 'loadCountry',
   saveNewCountry: 'saveNewCountry',
-  saveExistingCountry: 'saveExistingCountry'
+  saveExistingCountry: 'saveExistingCountry',
+  selectCountryByLatLng: 'selectCountryByLatLng'
 };
 
 export const mutations = {
@@ -16,7 +18,8 @@ export const mutations = {
   setCountriesLoading: 'setCountriesLoading',
   setCountryLoading: 'setCountryLoading',
   setCountrySaving: 'setCountrySaving',
-  setCountry: 'setCountry'
+  setCountry: 'setCountry',
+  setSelectedCountry: 'setSelectedCountry'
 };
 
 export default new Vuex.Store({
@@ -29,6 +32,9 @@ export default new Vuex.Store({
     countries: {
       loading: false,
       value: []
+    },
+    map: {
+      selectedCountryCode: null
     }
   },
   mutations: {
@@ -46,6 +52,9 @@ export default new Vuex.Store({
     },
     [mutations.setCountriesLoading](state, loading) {
       state.countries.loading = loading;
+    },
+    [mutations.setSelectedCountry](state, code) {
+      state.map.selectedCountryCode = code;
     }
   },
   actions: {
@@ -68,6 +77,21 @@ export default new Vuex.Store({
       commit(mutations.setCountrySaving, true);
       commit(mutations.setCountry, await client.put(`countries/${country.id}`, country));
       commit(mutations.setCountrySaving, false);
+    },
+    async [actions.selectCountryByLatLng]({ commit }, latlng) {
+      try {
+        const code = await axios.get(
+          `http://api.geonames.org/countryCode?lat=${latlng.lat}&lng=${latlng.lng}&username=jimmynicelegs`
+        );
+
+        if (code) {
+          const result = await axios.get(
+            `http://api.geonames.org/countryInfo?lang=GB&country=${code.data}&username=jimmynicelegs&type=json`
+          );
+
+          commit(mutations.setSelectedCountry, result.data.geonames[0].isoAlpha3);
+        }
+      } catch { }
     }
   },
   modules: {

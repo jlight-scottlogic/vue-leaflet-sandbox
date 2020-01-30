@@ -1,5 +1,5 @@
 <template>
-    <Display :countries="countries"></Display>
+    <Display :countries="countries" :selectedCountry="selectedCountry" @mapclicked="handleMapClicked"></Display>
 </template>
 
 <script>
@@ -13,8 +13,14 @@ export default {
         this.$store.dispatch(actions.loadCountries);
     },
     computed: mapState({
-        countries: state => state.countries.value
+        countries: state => state.countries.value,
+        selectedCountry: state => state.map.selectedCountryCode
     }),
+    methods: {
+        async handleMapClicked(e) {
+            this.$store.dispatch(actions.selectCountryByLatLng, e.latlng);
+        }
+    },
     components: { Display }
 };
 </script>

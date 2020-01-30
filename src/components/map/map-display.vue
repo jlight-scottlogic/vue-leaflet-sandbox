@@ -14,7 +14,7 @@
                 <l-popup :content="item.content"></l-popup>
             </l-marker>
 
-            <l-geo-json :geojson="findCountry('United Kingdom')"></l-geo-json>
+            <l-geo-json v-if="highlightedCountry != null" :geojson="highlightedCountry"></l-geo-json>
         </l-map>
     </div>
 </template>
@@ -25,7 +25,8 @@ import geojson from '@/data/geojson';
 export default {
     name: 'map-component',
     props: {
-        countries: Array
+        countries: Array,
+        selectedCountry: String
     },
     data() {
         return {
@@ -45,6 +46,9 @@ export default {
                 latlng: { lat: c.latitude, lng: c.longitude },
                 content: `<h3>${c.name}</h3>`
             }));
+        },
+        highlightedCountry() {
+            return this.findCountry(this.selectedCountry);
         }
     },
     methods: {
@@ -58,10 +62,14 @@ export default {
             this.bounds = bounds;
         },
         findCountry(name) {
-            return this.layer.geojson.features.find(f => f.properties.ADMIN === name);
+            return (
+                this.layer.geojson.features.find(
+                    f => f.properties.ISO_A3 === name
+                ) || null
+            );
         },
         handleClick(e) {
-            console.log(e.latlng);
+            this.$emit('mapclicked', { latlng: e.latlng });
         }
     }
 };
