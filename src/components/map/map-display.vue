@@ -19,6 +19,7 @@
                 ref="geoLayer"
                 v-if="highlightedCountry != null"
                 :geojson="highlightedCountry"
+                @ready="fitBounds()"
             ></l-geo-json>
         </l-map>
     </div>
@@ -52,11 +53,12 @@ export default {
     },
     updated() {
         if (
-            this.selectedCountry.code &&
+            this.selectedCountry &&
+            this.previousSelectedCountry &&
             this.selectedCountry.code !== this.previousSelectedCountry.code
         ) {
             this.previousSelectedCountry = this.selectedCountry;
-            this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
+            this.fitBounds();
         }
     },
     computed: {
@@ -90,6 +92,9 @@ export default {
         },
         handleClick(e) {
             this.$emit('mapclicked', { latlng: e.latlng });
+        },
+        fitBounds() {
+            this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
         }
     }
 };
