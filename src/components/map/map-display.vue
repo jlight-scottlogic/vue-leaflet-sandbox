@@ -1,6 +1,7 @@
 <template>
     <div id="map-container">
         <l-map
+            ref="map"
             style="height: 80%; width: 100%"
             :zoom="zoom"
             :center="center"
@@ -14,7 +15,11 @@
                 <l-popup :content="item.content"></l-popup>
             </l-marker>
 
-            <l-geo-json v-if="highlightedCountry != null" :geojson="highlightedCountry"></l-geo-json>
+            <l-geo-json
+                ref="geoLayer"
+                v-if="highlightedCountry != null"
+                :geojson="highlightedCountry"
+            ></l-geo-json>
         </l-map>
     </div>
 </template>
@@ -26,7 +31,7 @@ export default {
     name: 'map-component',
     props: {
         countries: Array,
-        selectedCountry: String
+        selectedCountry: Object
     },
     data() {
         return {
@@ -36,8 +41,23 @@ export default {
             bounds: null,
             layer: {
                 geojson
-            }
+            },
+            previousSelectedCountry: null
         };
+    },
+    watch: {
+        selectedCountry(_, previous) {
+            this.previousSelectedCountry = previous;
+        }
+    },
+    updated() {
+        if (
+            this.selectedCountry.code &&
+            this.selectedCountry.code !== this.previousSelectedCountry.code
+        ) {
+            this.previousSelectedCountry = this.selectedCountry;
+            this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
+        }
     },
     computed: {
         markers() {
@@ -48,7 +68,7 @@ export default {
             }));
         },
         highlightedCountry() {
-            return this.findCountry(this.selectedCountry);
+            return this.findCountry(this.selectedCountry.code);
         }
     },
     methods: {

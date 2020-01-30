@@ -34,7 +34,10 @@ export default new Vuex.Store({
       value: []
     },
     map: {
-      selectedCountryCode: null
+      selectedCountry: {
+        name: null,
+        code: null
+      }
     }
   },
   mutations: {
@@ -53,8 +56,13 @@ export default new Vuex.Store({
     [mutations.setCountriesLoading](state, loading) {
       state.countries.loading = loading;
     },
-    [mutations.setSelectedCountry](state, code) {
-      state.map.selectedCountryCode = code;
+    [mutations.setSelectedCountry](state, country) {
+      if (state.map.selectedCountry.code !== country.isoAlpha3) {
+        state.map.selectedCountry = {
+          name: country.countryName,
+          code: country.isoAlpha3
+        }
+      }
     }
   },
   actions: {
@@ -89,7 +97,7 @@ export default new Vuex.Store({
             `http://api.geonames.org/countryInfo?lang=GB&country=${code.data}&username=jimmynicelegs&type=json`
           );
 
-          commit(mutations.setSelectedCountry, result.data.geonames[0].isoAlpha3);
+          commit(mutations.setSelectedCountry, result.data.geonames[0]);
         }
       } catch { }
     }

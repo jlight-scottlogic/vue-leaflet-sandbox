@@ -14,7 +14,7 @@ export default {
     },
     computed: mapState({
         countries: state => state.countries.value,
-        selectedCountry: state => state.map.selectedCountryCode
+        selectedCountry: state => state.map.selectedCountry
     }),
     methods: {
         async handleMapClicked(e) {
