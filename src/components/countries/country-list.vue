@@ -25,9 +25,3 @@ export default {
     components: { Display }
 };
 </script>
-
-<style scoped>
-table {
-    margin: auto;
-}
-</style>

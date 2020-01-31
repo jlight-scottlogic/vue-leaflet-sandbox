@@ -10,7 +10,8 @@ export const actions = {
   loadCountry: 'loadCountry',
   saveNewCountry: 'saveNewCountry',
   saveExistingCountry: 'saveExistingCountry',
-  selectCountryByLatLng: 'selectCountryByLatLng'
+  selectCountryByLatLng: 'selectCountryByLatLng',
+  loadArticles: 'loadArticles'
 };
 
 export const mutations = {
@@ -19,7 +20,10 @@ export const mutations = {
   setCountryLoading: 'setCountryLoading',
   setCountrySaving: 'setCountrySaving',
   setCountry: 'setCountry',
-  setSelectedCountry: 'setSelectedCountry'
+  setSelectedCountry: 'setSelectedCountry',
+  setArticles: 'setArticles',
+  setArticlesLoading: 'setArticlesLoading',
+  setArticle: 'setArticle'
 };
 
 export default new Vuex.Store({
@@ -38,6 +42,10 @@ export default new Vuex.Store({
         name: null,
         code: null
       }
+    },
+    articles: {
+      loading: false,
+      value: []
     }
   },
   mutations: {
@@ -63,6 +71,15 @@ export default new Vuex.Store({
           code: country.isoAlpha3
         }
       }
+    },
+    [mutations.setArticle](state, article) {
+      state.article.value = article;
+    },
+    [mutations.setArticles](state, articles) {
+      state.articles.value = articles;
+    },
+    [mutations.setArticlesLoading](state, loading) {
+      state.articles.loading = loading;
     }
   },
   actions: {
@@ -100,6 +117,11 @@ export default new Vuex.Store({
           commit(mutations.setSelectedCountry, result.data.geonames[0]);
         }
       } catch { }
+    },
+    async [actions.loadArticles]({ commit }) {
+      commit(mutations.setArticlesLoading, true);
+      commit(mutations.setArticles, await client.get(`articles`));
+      commit(mutations.setArticlesLoading, false);
     }
   },
   modules: {
