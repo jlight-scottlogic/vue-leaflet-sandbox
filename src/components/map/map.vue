@@ -3,14 +3,14 @@
         <div class="map-container">
             <Display :selectedCountry="selectedCountry" @mapclicked="handleMapClicked"></Display>
         </div>
-        <div class="articles-container">
-            <Articles :selectedCountry="selectedCountry" />
+        <div class="article-section-container">
+            <ArticleSection :selectedCountry="selectedCountry" />
         </div>
     </div>
 </template>
 
 <script>
-import Articles from './map-articles';
+import ArticleSection from './map-article-section';
 import Display from './map-display';
 import { mapState } from 'vuex';
 import { actions } from '@/store';
@@ -25,7 +25,7 @@ export default {
             this.$store.dispatch(actions.selectCountryByLatLng, e.latlng);
         }
     },
-    components: { Articles, Display }
+    components: { ArticleSection, Display }
 };
 </script>
 
@@ -33,10 +33,13 @@ export default {
 .map-container {
     width: 50%;
     display: inline-block;
+    height: 600px;
 }
-.articles-container {
+.article-section-container {
     vertical-align: top;
     width: 50%;
     display: inline-block;
+    height: 600px;
+    overflow-y: scroll;
 }
 </style>

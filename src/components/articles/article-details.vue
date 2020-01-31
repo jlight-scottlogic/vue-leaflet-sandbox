@@ -1,8 +1,6 @@
 <template>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="article == null">No Article data found</div>
-    <div v-else>
-        <Display :article="article"></Display>
+    <div class="article-details-wrapper">
+        <Display :article="article" :loading="loading"></Display>
     </div>
 </template>
 
@@ -19,3 +17,9 @@ export default {
     components: { Display }
 };
 </script>
+
+<style scoped>
+.article-details-wrapper {
+    text-align: center;
+}
+</style>

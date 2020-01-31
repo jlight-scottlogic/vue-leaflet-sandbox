@@ -1,8 +1,12 @@
 <template>
     <div class="article-details">
-        <h4>{{article.headline}}</h4>
-        <Links :links="article.links" />
-        <article>{{article.body}}</article>
+        <div v-if="loading">Loading...</div>
+        <div v-else-if="article == null">No Article data found</div>
+        <div v-else>
+            <h4>{{article.headline}}</h4>
+            <Links :links="article.links" />
+            <article>{{article.body}}</article>
+        </div>
     </div>
 </template>
 
@@ -12,7 +16,8 @@ import Links from './article-links';
 export default {
     name: 'article-details-display',
     props: {
-        article: Object
+        article: Object,
+        loading: Boolean
     },
     components: { Links }
 };
@@ -20,13 +25,12 @@ export default {
 
 <style scoped>
 .article-details {
-    text-align: center;
     padding: 0 1.5rem;
 }
-.article-details > h4 {
+.article-details h4 {
     margin-bottom: 1rem;
 }
-.article-details > article {
+.article-details article {
     white-space: pre-line;
 }
 </style>

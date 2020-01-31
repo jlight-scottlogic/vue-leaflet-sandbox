@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="map-article-list">
         <h3>Articles</h3>
         <Display :articles="articles" :loading="loading" @listitemclicked="handleListItemClicked"></Display>
     </div>
@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         handleListItemClicked(id) {
-            console.log('clicked');
+            this.$emit('articleselected', id);
         }
     },
     components: { Display }
