@@ -1,5 +1,5 @@
 <template>
-    <Display :articles="articles" :loading="loading" @ondetailsclicked="handleDetailsClicked"></Display>
+    <Display :articles="articles" :loading="loading" @listitemclicked="handleListItemClicked"></Display>
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
         loading: state => state.articles.loading
     }),
     methods: {
-        handleDetailsClicked(id) {
+        handleListItemClicked(id) {
             this.$store.commit(mutations.setArticle, this.articles.find(c => c.id === id));
             this.$router.push(`/articles/${id}/details`);
         }

@@ -2,20 +2,22 @@
     <div>
         <div v-if="loading">Loading...</div>
         <div v-else-if="empty">No Articles!</div>
-        <table v-else>
-            <tbody>
-                <tr v-for="article in articles" :key="article.id">
-                    <td class="headline-cell">{{ article.headline }}</td>
-                    <td>
-                        <button @click="emitDetailsClickedEvent(article.id)">View</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <template v-else>
+            <div class="article-list">
+                <Item
+                    v-for="article in articles"
+                    :key="article.id"
+                    :article="article"
+                    @itemclicked="handleItemClickedEvent"
+                />
+            </div>
+        </template>
     </div>
 </template>
 
 <script>
+import Item from './article-list-item';
+
 export default {
     name: 'article-list-display',
     props: {
@@ -28,20 +30,23 @@ export default {
         }
     },
     methods: {
-        emitDetailsClickedEvent(id) {
-            this.$emit('ondetailsclicked', id);
+        handleItemClickedEvent(id) {
+            this.$emit('listitemclicked', id);
         }
     },
-    components: {}
+    components: { Item }
 };
 </script>
 
 <style scoped>
-table {
-    margin: auto;
-}
-.headline-cell {
+.article-list {
     text-align: left;
-    min-width: 150px;
+    padding: 1.5rem;
+}
+.article-list .article-list-item {
+    margin-top: 1rem;
+}
+.article-list .article-list-item:first-child {
+    margin-top: 0;
 }
 </style>

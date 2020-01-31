@@ -1,20 +1,20 @@
 <template>
     <div class="article-details">
         <h4>{{article.headline}}</h4>
-        <div class="article-links">
-            <div v-for="link in article.links" :key="link.code" class="article-link">{{link.name}}</div>
-        </div>
+        <Links :links="article.links" />
         <article>{{article.body}}</article>
     </div>
 </template>
 
 <script>
+import Links from './article-links';
+
 export default {
     name: 'article-details-display',
     props: {
         article: Object
     },
-    components: {}
+    components: { Links }
 };
 </script>
 
@@ -28,20 +28,5 @@ export default {
 }
 .article-details > article {
     white-space: pre-line;
-}
-.article-links {
-    margin-bottom: 1rem;
-}
-.article-links > .article-link {
-    display: inline-block;
-    background-color: #42b983;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    margin-left: 0.25rem;
-}
-.article-links > .article-link:first-child {
-    margin-left: 0;
 }
 </style>
