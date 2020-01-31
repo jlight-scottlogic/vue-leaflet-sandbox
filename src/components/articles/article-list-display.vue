@@ -3,19 +3,11 @@
         <div v-if="loading">Loading...</div>
         <div v-else-if="empty">No Articles!</div>
         <table v-else>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th></th>
-                </tr>
-            </thead>
             <tbody>
                 <tr v-for="article in articles" :key="article.id">
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.headline }}</td>
+                    <td class="headline-cell">{{ article.headline }}</td>
                     <td>
-                        <button @click="emitEditClickedEvent(article.id)">Edit</button>
+                        <button @click="emitDetailsClickedEvent(article.id)">View</button>
                     </td>
                 </tr>
             </tbody>
@@ -47,5 +39,9 @@ export default {
 <style scoped>
 table {
     margin: auto;
+}
+.headline-cell {
+    text-align: left;
+    min-width: 150px;
 }
 </style>
