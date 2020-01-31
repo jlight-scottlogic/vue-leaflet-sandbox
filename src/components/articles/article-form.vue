@@ -8,6 +8,21 @@
                 <input v-model="headline" />
             </div>
         </div>
+        <div class="form-group">
+            <div class="label-container">
+                <label>Links:</label>
+            </div>
+            <div class="input-container">
+                <multiselect
+                    v-model="links"
+                    track-by="alpha3Code"
+                    label="name"
+                    :options="countries"
+                    :multiple="true"
+                >
+                </multiselect>
+            </div>
+        </div>
         <div>
             <button @click="emitSaveEvent" :disabled="saving">{{ saving ? 'Saving...' : 'Save' }}</button>
         </div>
@@ -19,14 +34,16 @@ export default {
     headline: 'article-form',
     props: {
         article: Object,
-        saving: Boolean
+        saving: Boolean,
+        countries: Array
     },
     data() {
         return {
-            headline: null
+            headline: null,
+            links: null
         };
     },
-    beforeMount() {
+    created() {
         if (this.article) {
             this.headline = this.article.headline;
         }
@@ -35,7 +52,8 @@ export default {
         emitSaveEvent() {
             this.$emit('onsave', {
                 ...this.article,
-                headline: this.headline
+                headline: this.headline,
+                links: this.links.map(l => l.alpha3Code)
             });
         }
     },

@@ -1,6 +1,9 @@
 export default [
     {
         id: 1,
-        headline: 'Hello!'
+        headline: 'Trouble in Paradise!',
+        links: [
+            'AFG'
+        ]
     }
 ]

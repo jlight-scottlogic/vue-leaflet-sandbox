@@ -12,6 +12,8 @@
 
 <style>
 @import './assets/styles/main.css';
+@import '../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
+
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
