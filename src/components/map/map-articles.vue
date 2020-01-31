@@ -1,0 +1,51 @@
+<template>
+    <div>
+        <h3>Articles</h3>
+        <Display :articles="articles" :loading="loading" @listitemclicked="handleListItemClicked"></Display>
+    </div>
+</template>
+
+<script>
+import Display from '../articles/article-list-display.vue';
+import { mapState } from 'vuex';
+import { actions } from '@/store';
+
+export default {
+    name: 'map-articles',
+    props: {
+        selectedCountry: Object
+    },
+    created() {
+        if (this.selectedCountry.code) {
+            this.$store.dispatch(
+                actions.loadArticlesByCountryCode,
+                this.selectedCountry.code
+            );
+        } else {
+            this.$store.dispatch(actions.loadArticles);
+        }
+    },
+    watch: {
+        selectedCountry(newVal, oldVal) {
+            if (newVal.code !== oldVal.code) {
+                this.$store.dispatch(
+                    actions.loadArticlesByCountryCode,
+                    newVal.code
+                );
+            }
+        }
+    },
+    computed: {
+        ...mapState({
+            loading: state => state.articles.loading,
+            articles: state => state.articles.value
+        })
+    },
+    methods: {
+        handleListItemClicked(id) {
+            console.log('clicked');
+        }
+    },
+    components: { Display }
+};
+</script>

@@ -13,6 +13,7 @@ export const actions = {
   selectCountryByLatLng: 'selectCountryByLatLng',
   loadArticle: 'loadArticle',
   loadArticles: 'loadArticles',
+  loadArticlesByCountryCode: 'loadArticlesByCountryCode',
   saveNewArticle: 'saveNewArticle'
 };
 
@@ -141,6 +142,13 @@ export default new Vuex.Store({
     async [actions.loadArticles]({ commit }) {
       commit(mutations.setArticlesLoading, true);
       commit(mutations.setArticles, await client.get(`articles`));
+      commit(mutations.setArticlesLoading, false);
+    },
+    async [actions.loadArticlesByCountryCode]({ commit }, code) {
+      commit(mutations.setArticlesLoading, true);
+      const articles = await client.get(`articles`);
+      const filtered = articles.filter(a => a.links.map(l => l.code).includes(code));
+      commit(mutations.setArticles, filtered);
       commit(mutations.setArticlesLoading, false);
     },
     async [actions.saveNewArticle]({ commit }, article) {

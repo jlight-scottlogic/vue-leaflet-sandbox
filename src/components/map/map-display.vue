@@ -2,7 +2,7 @@
     <div id="map-container">
         <l-map
             ref="map"
-            style="height: 80%; width: 100%"
+            style="height: 100%; width: 100%"
             :zoom="zoom"
             :center="center"
             @update:zoom="zoomUpdated"
@@ -11,9 +11,6 @@
             @click="handleClick"
         >
             <l-tile-layer :url="url"></l-tile-layer>
-            <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng">
-                <l-popup :content="item.content"></l-popup>
-            </l-marker>
 
             <l-geo-json
                 ref="geoLayer"

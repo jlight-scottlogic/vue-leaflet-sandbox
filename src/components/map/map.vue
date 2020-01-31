@@ -1,19 +1,23 @@
 <template>
-    <Display :countries="countries" :selectedCountry="selectedCountry" @mapclicked="handleMapClicked"></Display>
+    <div>
+        <div class="map-container">
+            <Display :selectedCountry="selectedCountry" @mapclicked="handleMapClicked"></Display>
+        </div>
+        <div class="articles-container">
+            <Articles :selectedCountry="selectedCountry" />
+        </div>
+    </div>
 </template>
 
 <script>
+import Articles from './map-articles';
 import Display from './map-display';
 import { mapState } from 'vuex';
 import { actions } from '@/store';
 
 export default {
     name: 'map-component',
-    created() {
-        this.$store.dispatch(actions.loadCountries);
-    },
     computed: mapState({
-        countries: state => state.countries.value,
         selectedCountry: state => state.map.selectedCountry
     }),
     methods: {
@@ -21,12 +25,18 @@ export default {
             this.$store.dispatch(actions.selectCountryByLatLng, e.latlng);
         }
     },
-    components: { Display }
+    components: { Articles, Display }
 };
 </script>
 
 <style scoped>
-#map-container {
-    height: 540px;
+.map-container {
+    width: 50%;
+    display: inline-block;
+}
+.articles-container {
+    vertical-align: top;
+    width: 50%;
+    display: inline-block;
 }
 </style>
