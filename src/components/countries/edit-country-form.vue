@@ -13,9 +13,6 @@ import { mapState } from 'vuex'
 
 export default {
     name: 'edit-country-form',
-    props: {
-        countryId: Number
-    },
     computed: mapState({
         country: state => state.country.value,
         loading: state => state.country.loading,

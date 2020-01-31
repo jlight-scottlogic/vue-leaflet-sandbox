@@ -1,5 +1,5 @@
 <template>
-    <Display :articles="articles" :loading="loading" @oneditclicked="handleEditClicked"></Display>
+    <Display :articles="articles" :loading="loading" @ondetailsclicked="handleDetailsClicked"></Display>
 </template>
 
 <script>
@@ -17,9 +17,9 @@ export default {
         loading: state => state.articles.loading
     }),
     methods: {
-        handleEditClicked(id) {
+        handleDetailsClicked(id) {
             this.$store.commit(mutations.setArticle, this.articles.find(c => c.id === id));
-            this.$router.push(`/articles/${id}/edit`);
+            this.$router.push(`/articles/${id}/details`);
         }
     },
     components: { Display }

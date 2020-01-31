@@ -10,6 +10,14 @@
         </div>
         <div class="form-group">
             <div class="label-container">
+                <label>Body:</label>
+            </div>
+            <div class="input-container">
+                <textarea v-model="body" rows="4" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label-container">
                 <label>Links:</label>
             </div>
             <div class="input-container">
@@ -19,8 +27,7 @@
                     label="name"
                     :options="countries"
                     :multiple="true"
-                >
-                </multiselect>
+                ></multiselect>
             </div>
         </div>
         <div>
@@ -40,6 +47,7 @@ export default {
     data() {
         return {
             headline: null,
+            body: null,
             links: null
         };
     },
@@ -53,7 +61,11 @@ export default {
             this.$emit('onsave', {
                 ...this.article,
                 headline: this.headline,
-                links: this.links.map(l => l.alpha3Code)
+                body: this.body,
+                links: this.links.map(l => ({
+                    name: l.name,
+                    code: l.alpha3Code
+                }))
             });
         }
     },
@@ -76,7 +88,13 @@ label {
     display: inline-block;
     width: 50%;
 }
+.input-container > input,
+.input-container > textarea {
+    width: 100%;
+    min-height: 1.5rem;
+}
 .label-container {
+    vertical-align: top;
     text-align: right;
     display: inline-block;
     width: 50%;

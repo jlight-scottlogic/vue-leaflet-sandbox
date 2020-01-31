@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Edit Country</h2>
-        <Form :countryId="countryId"></Form>
+        <Form></Form>
     </div>
 </template>
 

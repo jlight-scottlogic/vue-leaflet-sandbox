@@ -13,7 +13,8 @@ module.exports = {
     'quotes': ["off"],
     'indent': ["off"],
     'semi': ["off"],
-    "space-before-function-paren": ["off"]
+    "space-before-function-paren": ["off"],
+    'no-multi-str': ["off"]
   },
   parserOptions: {
     parser: 'babel-eslint'

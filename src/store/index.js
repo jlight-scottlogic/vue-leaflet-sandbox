@@ -11,6 +11,7 @@ export const actions = {
   saveNewCountry: 'saveNewCountry',
   saveExistingCountry: 'saveExistingCountry',
   selectCountryByLatLng: 'selectCountryByLatLng',
+  loadArticle: 'loadArticle',
   loadArticles: 'loadArticles',
   saveNewArticle: 'saveNewArticle'
 };
@@ -131,6 +132,11 @@ export default new Vuex.Store({
           commit(mutations.setSelectedCountry, result.data.geonames[0]);
         }
       } catch { }
+    },
+    async [actions.loadArticle]({ commit }, id) {
+      commit(mutations.setArticleLoading, true);
+      commit(mutations.setArticle, await client.get(`articles/${id}`));
+      commit(mutations.setArticleLoading, false);
     },
     async [actions.loadArticles]({ commit }) {
       commit(mutations.setArticlesLoading, true);

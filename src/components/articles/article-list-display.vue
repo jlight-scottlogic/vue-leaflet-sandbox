@@ -28,8 +28,8 @@ export default {
         }
     },
     methods: {
-        emitEditClickedEvent(id) {
-            this.$emit('oneditclicked', id);
+        emitDetailsClickedEvent(id) {
+            this.$emit('ondetailsclicked', id);
         }
     },
     components: {}
