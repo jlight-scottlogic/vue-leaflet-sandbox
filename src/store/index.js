@@ -11,7 +11,8 @@ export const actions = {
   saveNewCountry: 'saveNewCountry',
   saveExistingCountry: 'saveExistingCountry',
   selectCountryByLatLng: 'selectCountryByLatLng',
-  loadArticles: 'loadArticles'
+  loadArticles: 'loadArticles',
+  saveNewArticle: 'saveNewArticle'
 };
 
 export const mutations = {
@@ -23,7 +24,9 @@ export const mutations = {
   setSelectedCountry: 'setSelectedCountry',
   setArticles: 'setArticles',
   setArticlesLoading: 'setArticlesLoading',
-  setArticle: 'setArticle'
+  setArticle: 'setArticle',
+  setArticleLoading: 'setArticleLoading',
+  setArticleSaving: 'setArticleSaving'
 };
 
 export default new Vuex.Store({
@@ -42,6 +45,11 @@ export default new Vuex.Store({
         name: null,
         code: null
       }
+    },
+    article: {
+      loading: false,
+      saving: false,
+      value: null
     },
     articles: {
       loading: false,
@@ -74,6 +82,12 @@ export default new Vuex.Store({
     },
     [mutations.setArticle](state, article) {
       state.article.value = article;
+    },
+    [mutations.setArticleLoading](state, loading) {
+      state.article.loading = loading;
+    },
+    [mutations.setArticleSaving](state, saving) {
+      state.article.saving = saving;
     },
     [mutations.setArticles](state, articles) {
       state.articles.value = articles;
@@ -122,6 +136,11 @@ export default new Vuex.Store({
       commit(mutations.setArticlesLoading, true);
       commit(mutations.setArticles, await client.get(`articles`));
       commit(mutations.setArticlesLoading, false);
+    },
+    async [actions.saveNewArticle]({ commit }, article) {
+      commit(mutations.setArticleSaving, true);
+      commit(mutations.setArticle, await client.post(`articles`, article));
+      commit(mutations.setArticleSaving, false);
     }
   },
   modules: {
