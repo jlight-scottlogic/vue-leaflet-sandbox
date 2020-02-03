@@ -1,7 +1,7 @@
 <template>
     <List
         v-if="mode == modes.list"
-        :selectedCountry="selectedCountry"
+        :selectedCountries="selectedCountries"
         @articleselected="handleArticleSelected"
     />
     <Details
@@ -23,7 +23,7 @@ const modes = {
 export default {
     name: 'map-articles',
     props: {
-        selectedCountry: Object
+        selectedCountries: Array
     },
     data: function() {
         return {

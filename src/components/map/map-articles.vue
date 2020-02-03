@@ -12,37 +12,33 @@ import { actions, mutations } from '@/store';
 
 export default {
     name: 'map-articles',
-    props: {
-        selectedCountry: Object
-    },
     created() {
-        if (this.selectedCountry) {
+        if (this.selectedCountries) {
             this.$store.dispatch(
                 actions.loadArticlesByCountryCode,
-                this.selectedCountry.code
+                this.selectedCountries.map(c => c.code)
             );
         } else {
             this.$store.dispatch(actions.loadArticles);
         }
     },
     watch: {
-        selectedCountry(newVal, oldVal) {
-            if (newVal?.code !== oldVal?.code) {
-                if (newVal) {
+        selectedCountries(newVal, oldVal) {
+            if (newVal) {
                     this.$store.dispatch(
-                        actions.loadArticlesByCountryCode,
-                        newVal.code
-                    );
+                    actions.loadArticlesByCountryCode,
+                    newVal.map(c => c.code)
+                );
                 } else {
                     this.$store.dispatch(actions.loadArticles);
                 }
-            }
         }
     },
     computed: {
         ...mapState({
             loading: state => state.articles.loading,
-            articles: state => state.articles.value
+            articles: state => state.articles.value,
+            selectedCountries: state => state.map.selectedCountries
         })
     },
     methods: {
