@@ -68,6 +68,10 @@ export default {
         },
         highlightedCountry() {
             return this.findCountries();
+            // if (this.selectedCountry) {
+            //     return this.findCountry(this.selectedCountry.code);
+            // }
+            // return null;
         }
     },
     methods: {

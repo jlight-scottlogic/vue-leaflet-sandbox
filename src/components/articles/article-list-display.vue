@@ -9,6 +9,7 @@
                     :key="article.id"
                     :article="article"
                     @itemclicked="handleItemClickedEvent"
+                    @linkclicked="handleLinkClick"
                 />
             </div>
         </template>
@@ -32,6 +33,9 @@ export default {
     methods: {
         handleItemClickedEvent(id) {
             this.$emit('listitemclicked', id);
+        },
+        handleLinkClick(link) {
+            this.$emit('linkclicked', link);
         }
     },
     components: { Item }

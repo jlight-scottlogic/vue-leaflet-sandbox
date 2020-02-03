@@ -1,7 +1,7 @@
 <template>
-    <div @click="emitItemClickedEvent(article.id)" class="article-list-item">
+    <div @click="handleClickEvent(article.id)" class="article-list-item">
         <h4>{{article.headline}}</h4>
-        <Links :links="article.links" />
+        <Links :links="article.links" @linkclicked="handleLinkClickEvent"/>
         <article>{{article.body}}</article>
     </div>
 </template>
@@ -13,8 +13,11 @@ export default {
     name: 'article-list-item',
     props: { article: Object },
     methods: {
-        emitItemClickedEvent(id) {
+        handleClickEvent(id) {
             this.$emit('itemclicked', id);
+        },
+        handleLinkClickEvent(link) {
+            this.$emit('linkclicked', link);
         }
     },
     components: { Links }

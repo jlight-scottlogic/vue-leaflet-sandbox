@@ -22,10 +22,10 @@ export default {
     }),
     methods: {
         async handleMapClicked(e) {
-            this.$store.dispatch(actions.selectCountryByLatLng, { latlng: e.latlng, add: false });
+            this.$store.dispatch(actions.toggleSelectedCountryByLatLng, { latlng: e.latlng, add: false });
         },
         async handleMapClickedCtrl(e) {
-            this.$store.dispatch(actions.selectCountryByLatLng, { latlng: e.latlng, add: true });
+            this.$store.dispatch(actions.toggleSelectedCountryByLatLng, { latlng: e.latlng, add: true });
         }
     },
     components: { ArticleSection, Display }

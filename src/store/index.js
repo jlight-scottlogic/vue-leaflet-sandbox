@@ -10,7 +10,7 @@ export const actions = {
   loadCountry: 'loadCountry',
   saveNewCountry: 'saveNewCountry',
   saveExistingCountry: 'saveExistingCountry',
-  selectCountryByLatLng: 'selectCountryByLatLng',
+  toggleSelectedCountryByLatLng: 'toggleSelectedCountryByLatLng',
   loadArticle: 'loadArticle',
   loadArticles: 'loadArticles',
   loadArticlesByCountryCode: 'loadArticlesByCountryCode',
@@ -25,6 +25,7 @@ export const mutations = {
   setCountry: 'setCountry',
   setSelectedCountry: 'setSelectedCountry',
   addSelectedCountry: 'addSelectedCountry',
+  clearSelectedCountry: 'clearSelectedCountry',
   setArticles: 'setArticles',
   setArticlesLoading: 'setArticlesLoading',
   setArticle: 'setArticle',
@@ -73,25 +74,17 @@ export default new Vuex.Store({
       state.countries.loading = loading;
     },
     [mutations.setSelectedCountry](state, country) {
-      if (state.map.selectedCountry.code !== country.isoAlpha3) {
-        state.map.selectedCountry = [{
-          name: country.countryName,
-          code: country.isoAlpha3
-        }]
-      }
+      state.map.selectedCountry = [country]
     },
     [mutations.addSelectedCountry](state, country) {
       if (state.map.selectedCountry.length === 0) {
-        state.map.selectedCountry.push({
-          name: country.countryName,
-          code: country.isoAlpha3
-        })
+        state.map.selectedCountry.push(country)
       } else if (!state.map.selectedCountry.map(c => c.code).includes(country.isoAlpha3)) {
-        state.map.selectedCountry.push({
-          name: country.countryName,
-          code: country.isoAlpha3
-        })
+        state.map.selectedCountry.push(country)
       }
+    },
+    [mutations.clearSelectedCountry](state, country) {
+      state.map.selectedCountry = state.map.selectedCountry.filter(c => c.code !== country.isoAlpha3)
     },
     [mutations.setArticle](state, article) {
       state.article.value = article;
@@ -130,7 +123,7 @@ export default new Vuex.Store({
       commit(mutations.setCountry, await client.put(`countries/${country.id}`, country));
       commit(mutations.setCountrySaving, false);
     },
-    async [actions.selectCountryByLatLng]({ commit }, data) {
+    async [actions.toggleSelectedCountryByLatLng]({ commit, state }, data) {
       const { latlng, add } = data
       try {
         const code = await axios.get(
@@ -141,8 +134,23 @@ export default new Vuex.Store({
           const result = await axios.get(
             `http://api.geonames.org/countryInfo?lang=GB&country=${code.data}&username=jimmynicelegs&type=json`
           );
+          const country = result.data.geonames[0];
 
-          commit(add ? mutations.addSelectedCountry : mutations.setSelectedCountry, result.data.geonames[0]);
+          if (add) {
+            if (state.map.selectedCountry == null || !state.map.selectedCountry.map(c => c.code).includes(country.isoAlpha3)) {
+              commit(mutations.addSelectedCountry, {
+                name: country.countryName,
+                code: country.isoAlpha3
+              });
+            } else {
+              commit(mutations.clearSelectedCountry, country);
+            }
+          } else {
+              commit(mutations.setSelectedCountry, {
+                name: country.countryName,
+                code: country.isoAlpha3
+            })
+          }
         }
       } catch { }
     },
