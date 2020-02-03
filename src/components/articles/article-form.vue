@@ -18,6 +18,22 @@
         </div>
         <div class="form-group">
             <div class="label-container">
+                <label>Latitude:</label>
+            </div>
+            <div class="input-container">
+                <input v-model="latitude" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label-container">
+                <label>Longitude:</label>
+            </div>
+            <div class="input-container">
+                <input v-model="longitude" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label-container">
                 <label>Links:</label>
             </div>
             <div class="input-container">
@@ -48,6 +64,8 @@ export default {
         return {
             headline: null,
             body: null,
+            latitude: null,
+            longitude: null,
             links: null
         };
     },
@@ -62,6 +80,8 @@ export default {
                 ...this.article,
                 headline: this.headline,
                 body: this.body,
+                latitude: this.latitude,
+                longitude: this.longitude,
                 links: this.links.map(l => ({
                     name: l.name,
                     code: l.alpha3Code
