@@ -12,6 +12,10 @@
         >
             <l-tile-layer :url="url"></l-tile-layer>
 
+            <l-marker v-for="marker in markers" :latLng="marker.latLng" :key="marker.id">
+                <l-popup>{{marker.content}}</l-popup>
+            </l-marker>
+
             <l-geo-json
                 ref="geoLayer"
                 v-if="highlightedCountry != null"
@@ -28,8 +32,8 @@ import geojson from '@/data/geojson';
 export default {
     name: 'map-component',
     props: {
-        countries: Array,
-        selectedCountry: Object
+        selectedCountry: Object,
+        articles: Array
     },
     data() {
         return {
@@ -44,6 +48,9 @@ export default {
         };
     },
     watch: {
+        articles(current, previous) {
+            console.log('current', current, 'previous', previous);
+        },
         selectedCountry(_, previous) {
             this.previousSelectedCountry = previous;
         }
@@ -60,10 +67,10 @@ export default {
     },
     computed: {
         markers() {
-            return this.countries.map(c => ({
+            return this.articles.map(c => ({
                 id: c.id,
-                latlng: { lat: c.latitude, lng: c.longitude },
-                content: `<h3>${c.name}</h3>`
+                latLng: { lat: c.latitude, lng: c.longitude },
+                content: `<h3>${c.headline}</h3>`
             }));
         },
         highlightedCountry() {

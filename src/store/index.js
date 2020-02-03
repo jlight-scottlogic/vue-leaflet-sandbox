@@ -140,16 +140,19 @@ export default new Vuex.Store({
     },
     async [actions.loadArticle]({ commit }, id) {
       commit(mutations.setArticleLoading, true);
+      commit(mutations.setArticle, null);
       commit(mutations.setArticle, await client.get(`articles/${id}`));
       commit(mutations.setArticleLoading, false);
     },
     async [actions.loadArticles]({ commit }) {
       commit(mutations.setArticlesLoading, true);
+      commit(mutations.setArticles, []);
       commit(mutations.setArticles, await client.get(`articles`));
       commit(mutations.setArticlesLoading, false);
     },
     async [actions.loadArticlesByCountryCode]({ commit }, code) {
       commit(mutations.setArticlesLoading, true);
+      commit(mutations.setArticles, []);
       const articles = await client.get(`articles`);
       const filtered = articles.filter(a => a.links.map(l => l.code).includes(code));
       commit(mutations.setArticles, filtered);
