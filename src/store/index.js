@@ -73,10 +73,7 @@ export default new Vuex.Store({
       state.countries.loading = loading;
     },
     [mutations.setSelectedCountry](state, country) {
-      state.map.selectedCountry = {
-        name: country.countryName,
-        code: country.isoAlpha3
-      }
+      state.map.selectedCountry = country;
     },
     [mutations.clearSelectedCountry](state) {
       state.map.selectedCountry = null;
@@ -131,7 +128,10 @@ export default new Vuex.Store({
           const country = result.data.geonames[0];
 
           if (state.map.selectedCountry == null || country.isoAlpha3 !== state.map.selectedCountry.code) {
-            commit(mutations.setSelectedCountry, country);
+            commit(mutations.setSelectedCountry, {
+              name: country.countryName,
+              code: country.isoAlpha3
+            });
           } else {
             commit(mutations.clearSelectedCountry);
           }

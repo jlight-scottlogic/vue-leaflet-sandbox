@@ -1,14 +1,14 @@
 <template>
     <div id="map-article-list">
         <h3>Articles</h3>
-        <Display :articles="articles" :loading="loading" @listitemclicked="handleListItemClicked"></Display>
+        <Display :articles="articles" :loading="loading" @listitemclicked="handleListItemClicked" @linkclicked="handleLinkClicked"></Display>
     </div>
 </template>
 
 <script>
 import Display from '../articles/article-list-display.vue';
 import { mapState } from 'vuex';
-import { actions } from '@/store';
+import { actions, mutations } from '@/store';
 
 export default {
     name: 'map-articles',
@@ -48,6 +48,9 @@ export default {
     methods: {
         handleListItemClicked(id) {
             this.$emit('articleselected', id);
+        },
+        handleLinkClicked(link) {
+            this.$store.commit(mutations.setSelectedCountry, link);
         }
     },
     components: { Display }

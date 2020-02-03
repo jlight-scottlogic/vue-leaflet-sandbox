@@ -1,12 +1,12 @@
 <template>
     <div class="map-article-wrapper">
         <button @click="handleBackClick">Back</button>
-        <Display :article="article" :loading="loading"></Display>
+        <Display :article="article" :loading="loading" @linkclicked="handleLinkClicked"></Display>
     </div>
 </template>
 
 <script>
-import { actions } from '@/store';
+import { actions, mutations } from '@/store';
 import Display from '../articles/article-details-display';
 import { mapState } from 'vuex';
 
@@ -25,6 +25,9 @@ export default {
     methods: {
         handleBackClick() {
             this.$emit('backclicked');
+        },
+        handleLinkClicked(link) {
+            this.$store.commit(mutations.setSelectedCountry, link);
         }
     },
     components: { Display }

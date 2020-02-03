@@ -32,11 +32,6 @@ export default {
             articleId: null
         };
     },
-    watch: {
-        selectedCountry() {
-            this.mode = modes.list;
-        }
-    },
     methods: {
         handleArticleSelected(id) {
             this.mode = modes.details;

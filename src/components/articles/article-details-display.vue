@@ -4,7 +4,7 @@
         <div v-else-if="article == null">No Article data found</div>
         <div v-else>
             <h4>{{article.headline}}</h4>
-            <Links :links="article.links" />
+            <Links :links="article.links" @linkclicked="handleLinkClicked"/>
             <article>{{article.body}}</article>
         </div>
     </div>
@@ -18,6 +18,11 @@ export default {
     props: {
         article: Object,
         loading: Boolean
+    },
+    methods: {
+        handleLinkClicked(link) {
+            this.$emit('linkclicked', link);
+        }
     },
     components: { Links }
 };
