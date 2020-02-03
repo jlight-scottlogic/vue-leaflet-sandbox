@@ -13,32 +13,31 @@ import { actions } from '@/store';
 export default {
     name: 'map-articles',
     props: {
-        selectedCountry: Object
+        selectedCountries: Array
     },
     created() {
-        if (this.selectedCountry.code) {
+        if (this.selectedCountries) {
             this.$store.dispatch(
                 actions.loadArticlesByCountryCode,
-                this.selectedCountry.code
+                this.selectedCountries.map(c => c.code)
             );
         } else {
             this.$store.dispatch(actions.loadArticles);
         }
     },
     watch: {
-        selectedCountry(newVal, oldVal) {
-            if (newVal.code !== oldVal.code) {
+        selectedCountries(newVal, oldVal) {
                 this.$store.dispatch(
                     actions.loadArticlesByCountryCode,
-                    newVal.code
+                    newVal.map(c => c.code)
                 );
-            }
         }
     },
     computed: {
         ...mapState({
             loading: state => state.articles.loading,
-            articles: state => state.articles.value
+            articles: state => state.articles.value,
+            selectedCountries: state => state.map.selectedCountry
         })
     },
     methods: {

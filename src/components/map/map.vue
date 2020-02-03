@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="map-container">
-            <Display :selectedCountry="selectedCountry" @mapclicked="handleMapClicked"></Display>
+            <Display :selectedCountries="selectedCountries" @mapclicked="handleMapClicked" @mapclickedCtrl="handleMapClickedCtrl"></Display>
         </div>
         <div class="article-section-container">
-            <ArticleSection :selectedCountry="selectedCountry" />
+            <ArticleSection :selectedCountries="selectedCountries" />
         </div>
     </div>
 </template>
@@ -18,11 +18,14 @@ import { actions } from '@/store';
 export default {
     name: 'map-component',
     computed: mapState({
-        selectedCountry: state => state.map.selectedCountry
+        selectedCountries: state => state.map.selectedCountry
     }),
     methods: {
         async handleMapClicked(e) {
-            this.$store.dispatch(actions.selectCountryByLatLng, e.latlng);
+            this.$store.dispatch(actions.selectCountryByLatLng, { latlng: e.latlng, add: false });
+        },
+        async handleMapClickedCtrl(e) {
+            this.$store.dispatch(actions.selectCountryByLatLng, { latlng: e.latlng, add: true });
         }
     },
     components: { ArticleSection, Display }

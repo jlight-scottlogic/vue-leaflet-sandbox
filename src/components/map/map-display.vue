@@ -29,7 +29,7 @@ export default {
     name: 'map-component',
     props: {
         countries: Array,
-        selectedCountry: Object
+        selectedCountries: Array
     },
     data() {
         return {
@@ -40,21 +40,21 @@ export default {
             layer: {
                 geojson
             },
-            previousSelectedCountry: null
+            previousSelectedCountries: null
         };
     },
     watch: {
-        selectedCountry(_, previous) {
-            this.previousSelectedCountry = previous;
+        selectedCountries(_, previous) {
+            this.previousSelectedCountries = previous;
         }
     },
     updated() {
         if (
-            this.selectedCountry &&
-            this.previousSelectedCountry &&
-            this.selectedCountry.code !== this.previousSelectedCountry.code
+            this.selectedCountries &&
+            this.previousSelectedCountries &&
+            this.selectedCountries !== this.previousSelectedCountries
         ) {
-            this.previousSelectedCountry = this.selectedCountry;
+            this.previousSelectedCountries = this.selectedCountries;
             this.fitBounds();
         }
     },
@@ -67,7 +67,7 @@ export default {
             }));
         },
         highlightedCountry() {
-            return this.findCountry(this.selectedCountry.code);
+            return this.findCountries();
         }
     },
     methods: {
@@ -80,15 +80,17 @@ export default {
         boundsUpdated(bounds) {
             this.bounds = bounds;
         },
-        findCountry(name) {
-            return (
-                this.layer.geojson.features.find(
-                    f => f.properties.ISO_A3 === name
-                ) || null
-            );
+        findCountries() {
+            return ({
+                ...this.layer.geojson,
+                features: this.layer.geojson.features.filter(f => {
+                    return this.selectedCountries.map(c => c.code).includes(f.properties.ISO_A3)
+                })
+            });
         },
         handleClick(e) {
-            this.$emit('mapclicked', { latlng: e.latlng });
+            if (e.originalEvent.ctrlKey) this.$emit('mapclickedCtrl', { latlng: e.latlng });
+            else this.$emit('mapclicked', { latlng: e.latlng })
         },
         fitBounds() {
             this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
