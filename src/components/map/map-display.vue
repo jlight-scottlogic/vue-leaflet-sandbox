@@ -98,7 +98,7 @@ export default {
             else this.$emit('mapclicked', { latlng: e.latlng })
         },
         fitBounds() {
-            this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
+            if (this.selectedCountryCodes.length > 0) this.$refs.map.mapObject.fitBounds(this.$refs.geoLayer.getBounds());
         }
     }
 };
