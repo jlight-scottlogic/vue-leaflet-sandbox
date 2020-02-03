@@ -38,7 +38,7 @@ export default {
         ...mapState({
             loading: state => state.articles.loading,
             articles: state => state.articles.value,
-            selectedCountries: state => state.map.selectedCountry
+            selectedCountries: state => state.map.selectedCountries
         })
     },
     methods: {

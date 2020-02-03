@@ -44,7 +44,7 @@ export default {
         };
     },
     watch: {
-        selectedCountries(now, previous) {
+        selectedCountries(_, previous) {
             this.previousSelectedCountries = previous;
         }
     },
@@ -68,6 +68,9 @@ export default {
         },
         highlightedCountry() {
             return this.findCountries();
+        },
+        selectedCountryCodes() {
+            return this.selectedCountries.map(c => c.code)
         }
     },
     methods: {
@@ -81,12 +84,14 @@ export default {
             this.bounds = bounds;
         },
         findCountries() {
-            return ({
-                ...this.layer.geojson,
-                features: this.layer.geojson.features.filter(f => {
-                    return this.selectedCountries.map(c => c.code).includes(f.properties.ISO_A3)
-                })
-            });
+            if (this.selectedCountries.length > 0) {
+                return ({
+                    ...this.layer.geojson,
+                    features: this.layer.geojson.features.filter(f => {
+                        return this.selectedCountryCodes.includes(f.properties.ISO_A3)
+                    })
+                });
+            } else return null
         },
         handleClick(e) {
             if (e.originalEvent.ctrlKey) this.$emit('mapclickedCtrl', { latlng: e.latlng });

@@ -45,7 +45,7 @@ export default new Vuex.Store({
       value: []
     },
     map: {
-      selectedCountry: []
+      selectedCountries: []
     },
     article: {
       loading: false,
@@ -74,17 +74,17 @@ export default new Vuex.Store({
       state.countries.loading = loading;
     },
     [mutations.setSelectedCountry](state, country) {
-      state.map.selectedCountry = [country]
+      state.map.selectedCountries = [country]
     },
     [mutations.addSelectedCountry](state, country) {
-      if (state.map.selectedCountry.length === 0) {
-        state.map.selectedCountry = [...state.map.selectedCountry, country];
-      } else if (!state.map.selectedCountry.map(c => c.code).includes(country.isoAlpha3)) {
-        state.map.selectedCountry = [...state.map.selectedCountry, country];
+      if (state.map.selectedCountries.length === 0) {
+        state.map.selectedCountries = [...state.map.selectedCountries, country];
+      } else if (!state.map.selectedCountries.map(c => c.code).includes(country.isoAlpha3)) {
+        state.map.selectedCountries = [...state.map.selectedCountries, country];
       }
     },
     [mutations.clearSelectedCountry](state, country) {
-      state.map.selectedCountry = state.map.selectedCountry.filter(c => c.code !== country.isoAlpha3)
+      state.map.selectedCountries = state.map.selectedCountries.filter(c => c.code !== country.isoAlpha3)
     },
     [mutations.setArticle](state, article) {
       state.article.value = article;
@@ -136,20 +136,13 @@ export default new Vuex.Store({
           );
           const country = result.data.geonames[0];
 
-          if (add) {
-            if (state.map.selectedCountry == null || !state.map.selectedCountry.map(c => c.code).includes(country.isoAlpha3)) {
-              commit(mutations.addSelectedCountry, {
-                name: country.countryName,
-                code: country.isoAlpha3
-              });
-            } else {
-              commit(mutations.clearSelectedCountry, country);
-            }
-          } else {
-            commit(mutations.setSelectedCountry, {
+          if (state.map.selectedCountries.length === 0 || !state.map.selectedCountries.map(c => c.code).includes(country.isoAlpha3)) {
+            commit(add ? mutations.addSelectedCountry : mutations.setSelectedCountry, {
               name: country.countryName,
               code: country.isoAlpha3
-            })
+            });
+          } else {
+            commit(mutations.clearSelectedCountry, country);
           }
         }
       } catch { }

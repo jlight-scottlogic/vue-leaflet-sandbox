@@ -18,13 +18,13 @@ import { actions } from '@/store';
 export default {
     name: 'map-component',
     computed: mapState({
-        selectedCountries: state => state.map.selectedCountry
+        selectedCountries: state => state.map.selectedCountries
     }),
     methods: {
-        async handleMapClicked(e) {
+        handleMapClicked(e) {
             this.$store.dispatch(actions.toggleSelectedCountryByLatLng, { latlng: e.latlng, add: false });
         },
-        async handleMapClickedCtrl(e) {
+        handleMapClickedCtrl(e) {
             this.$store.dispatch(actions.toggleSelectedCountryByLatLng, { latlng: e.latlng, add: true });
         }
     },
