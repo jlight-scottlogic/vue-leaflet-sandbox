@@ -142,7 +142,14 @@ export default new Vuex.Store({
               code: country.isoAlpha3
             });
           } else {
-            commit(mutations.clearSelectedCountry, country);
+            if (state.map.selectedCountries.length === 1 || add) {
+              commit(mutations.clearSelectedCountry, country);
+            } else {
+              commit(mutations.setSelectedCountry, {
+                name: country.countryName,
+                code: country.isoAlpha3
+              });
+            }
           }
         }
       } catch { }
