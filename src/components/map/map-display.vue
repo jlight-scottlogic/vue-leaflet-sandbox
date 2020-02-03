@@ -67,7 +67,10 @@ export default {
             }));
         },
         highlightedCountry() {
-            return this.findCountry(this.selectedCountry.code);
+            if (this.selectedCountry) {
+                return this.findCountry(this.selectedCountry.code);
+            }
+            return null;
         }
     },
     methods: {

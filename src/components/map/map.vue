@@ -21,8 +21,8 @@ export default {
         selectedCountry: state => state.map.selectedCountry
     }),
     methods: {
-        async handleMapClicked(e) {
-            this.$store.dispatch(actions.selectCountryByLatLng, e.latlng);
+        handleMapClicked(e) {
+            this.$store.dispatch(actions.toggleSelectedCountryByLatLng, e.latlng);
         }
     },
     components: { ArticleSection, Display }

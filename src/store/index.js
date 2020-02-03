@@ -10,7 +10,7 @@ export const actions = {
   loadCountry: 'loadCountry',
   saveNewCountry: 'saveNewCountry',
   saveExistingCountry: 'saveExistingCountry',
-  selectCountryByLatLng: 'selectCountryByLatLng',
+  toggleSelectedCountryByLatLng: 'toggleSelectedCountryByLatLng',
   loadArticle: 'loadArticle',
   loadArticles: 'loadArticles',
   loadArticlesByCountryCode: 'loadArticlesByCountryCode',
@@ -24,6 +24,7 @@ export const mutations = {
   setCountrySaving: 'setCountrySaving',
   setCountry: 'setCountry',
   setSelectedCountry: 'setSelectedCountry',
+  clearSelectedCountry: 'clearSelectedCountry',
   setArticles: 'setArticles',
   setArticlesLoading: 'setArticlesLoading',
   setArticle: 'setArticle',
@@ -43,10 +44,7 @@ export default new Vuex.Store({
       value: []
     },
     map: {
-      selectedCountry: {
-        name: null,
-        code: null
-      }
+      selectedCountry: null
     },
     article: {
       loading: false,
@@ -75,12 +73,13 @@ export default new Vuex.Store({
       state.countries.loading = loading;
     },
     [mutations.setSelectedCountry](state, country) {
-      if (state.map.selectedCountry.code !== country.isoAlpha3) {
-        state.map.selectedCountry = {
-          name: country.countryName,
-          code: country.isoAlpha3
-        }
+      state.map.selectedCountry = {
+        name: country.countryName,
+        code: country.isoAlpha3
       }
+    },
+    [mutations.clearSelectedCountry](state) {
+      state.map.selectedCountry = null;
     },
     [mutations.setArticle](state, article) {
       state.article.value = article;
@@ -119,7 +118,7 @@ export default new Vuex.Store({
       commit(mutations.setCountry, await client.put(`countries/${country.id}`, country));
       commit(mutations.setCountrySaving, false);
     },
-    async [actions.selectCountryByLatLng]({ commit }, latlng) {
+    async [actions.toggleSelectedCountryByLatLng]({ commit, state }, latlng) {
       try {
         const code = await axios.get(
           `http://api.geonames.org/countryCode?lat=${latlng.lat}&lng=${latlng.lng}&username=jimmynicelegs`
@@ -129,8 +128,13 @@ export default new Vuex.Store({
           const result = await axios.get(
             `http://api.geonames.org/countryInfo?lang=GB&country=${code.data}&username=jimmynicelegs&type=json`
           );
+          const country = result.data.geonames[0];
 
-          commit(mutations.setSelectedCountry, result.data.geonames[0]);
+          if (state.map.selectedCountry == null || country.isoAlpha3 !== state.map.selectedCountry.code) {
+            commit(mutations.setSelectedCountry, country);
+          } else {
+            commit(mutations.clearSelectedCountry);
+          }
         }
       } catch { }
     },

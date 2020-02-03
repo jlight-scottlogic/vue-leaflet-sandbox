@@ -16,7 +16,7 @@ export default {
         selectedCountry: Object
     },
     created() {
-        if (this.selectedCountry.code) {
+        if (this.selectedCountry) {
             this.$store.dispatch(
                 actions.loadArticlesByCountryCode,
                 this.selectedCountry.code
@@ -27,11 +27,15 @@ export default {
     },
     watch: {
         selectedCountry(newVal, oldVal) {
-            if (newVal.code !== oldVal.code) {
-                this.$store.dispatch(
-                    actions.loadArticlesByCountryCode,
-                    newVal.code
-                );
+            if (newVal?.code !== oldVal?.code) {
+                if (newVal) {
+                    this.$store.dispatch(
+                        actions.loadArticlesByCountryCode,
+                        newVal.code
+                    );
+                } else {
+                    this.$store.dispatch(actions.loadArticles);
+                }
             }
         }
     },
