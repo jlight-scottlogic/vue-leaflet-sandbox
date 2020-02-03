@@ -12,9 +12,6 @@ import { actions, mutations } from '@/store';
 
 export default {
     name: 'map-articles',
-    props: {
-        selectedCountries: Array
-    },
     created() {
         if (this.selectedCountries) {
             this.$store.dispatch(

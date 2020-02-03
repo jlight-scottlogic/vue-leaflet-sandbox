@@ -78,9 +78,9 @@ export default new Vuex.Store({
     },
     [mutations.addSelectedCountry](state, country) {
       if (state.map.selectedCountry.length === 0) {
-        state.map.selectedCountry.push(country)
+        state.map.selectedCountry = [...state.map.selectedCountry, country];
       } else if (!state.map.selectedCountry.map(c => c.code).includes(country.isoAlpha3)) {
-        state.map.selectedCountry.push(country)
+        state.map.selectedCountry = [...state.map.selectedCountry, country];
       }
     },
     [mutations.clearSelectedCountry](state, country) {
@@ -146,9 +146,9 @@ export default new Vuex.Store({
               commit(mutations.clearSelectedCountry, country);
             }
           } else {
-              commit(mutations.setSelectedCountry, {
-                name: country.countryName,
-                code: country.isoAlpha3
+            commit(mutations.setSelectedCountry, {
+              name: country.countryName,
+              code: country.isoAlpha3
             })
           }
         }
@@ -169,7 +169,7 @@ export default new Vuex.Store({
       const articles = await client.get(`articles`);
       const filtered = articles.filter(a => a.links.map(l => l.code).some(
         linkCode => countryCodes.includes(linkCode)
-        ));
+      ));
       commit(mutations.setArticles, filtered);
       commit(mutations.setArticlesLoading, false);
     },
